@@ -19,7 +19,7 @@ CHOXANH/
 ├── choxanh-frontend/   # Giao diện người dùng (Next.js)
 └── choxanh-backend/    # API & xử lý dữ liệu (FastAPI)
 
-6. Cách chạy dự án
+Cách chạy dự án
 
 Frontend (Next.js)
 
