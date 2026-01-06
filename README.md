@@ -17,15 +17,13 @@ Công nghệ: Next.js, Python FastAPI, MongoDB, RAG
 Frontend (Next.js)
 
 cd choxanh-frontend
-npm install
+
 npm run dev
 
 Backend (FastAPI)
 
 cd choxanh-backend
-python -m venv venv
-source venv/bin/activate  # hoặc venv\Scripts\activate trên Windows
-pip install -r requirements.txt
+
 uvicorn main:app --reload
 
 # Giảng viên hướng dẫn: TS. Trần Hoàng Lộc
