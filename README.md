@@ -1,4 +1,4 @@
-# Học viện hàng không Việt Nam - Khoa Công nghệ Thông tin
+# Học viện hàng không VN - Khoa Công nghệ Thông tin
 
 # Đề tài: 🥬 Chợ Xanh Thông Minh - Hệ thống web bán thực phẩm tích hợp AI 
 
@@ -10,7 +10,7 @@ Hệ thống cho phép người dùng tìm kiếm nguyên liệu, gợi ý các 
 
 # Công nghệ sử dụng
 
-Công nghệ: Next.js, Python FastAPI,MongoDB, RAG
+Công nghệ: Next.js, Python FastAPI, MongoDB, RAG
 
 # Cách chạy dự án
 
