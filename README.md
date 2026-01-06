@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Học viện hàng không VN - Khoa Công nghệ Thông tin
 
-## Getting Started
+# Đề tài: 🥬 Chợ Xanh Thông Minh - Hệ thống web bán thực phẩm tích hợp AI 
 
-First, run the development server:
+# Giới thiệu đề tài
+ 
+Trong xu hướng chuyển đổi số hiện nay, các hệ thống siêu thị trực tuyến đang dần trở thành công cụ quen thuộc để người dùng tìm kiếm và mua nguyên liệu nấu ăn.Tuy nhiên, một hạn chế lớn là người dùng không biết nên nấu món gì hoặc không biết cần mua thêm nguyên liệu gì để hoàn thành món ăn.
+Đề tài “Chợ Xanh Thông Minh” được xây dựng nhằm mô phỏng mô hình hoạt động của một website bán hàng như Bách Hóa Xanh, nhưng được bổ sung trí tuệ nhân tạo (AI) và hệ thống dữ liệu linh hoạt để hỗ trợ người dùng từ bước chọn món đến chuẩn bị nguyên liệu.
+Hệ thống cho phép người dùng tìm kiếm nguyên liệu, gợi ý các nguyên liệu phù hợp theo yêu cầu khách hàng tìm kiếm, và tạo danh sách nguyên liệu cần mua, mang đến trải nghiệm “siêu thị trực tuyến + trợ lý nấu ăn AI” trên cùng một nền tảng.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# Công nghệ sử dụng
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Công nghệ: Next.js, Python FastAPI, MongoDB, RAG
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Cách chạy dự án
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Frontend (Next.js):
 
-## Learn More
+  cd choxanh-frontend
 
-To learn more about Next.js, take a look at the following resources:
+  npm run dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Backend (FastAPI):
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+  cd choxanh-backend
 
-## Deploy on Vercel
+  uvicorn main:app --reload
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Giảng viên hướng dẫn: TS. Trần Hoàng Lộc  
