@@ -12,12 +12,6 @@ Hệ thống cho phép người dùng tìm kiếm nguyên liệu, gợi ý các 
 
 Công nghệ: Next.js, Python FastAPI,MongoDB, RAG
 
-# Cấu trúc dự án
-
-CHOXANH/
-├── choxanh-frontend/   # Giao diện người dùng (Next.js)
-└── choxanh-backend/    # API & xử lý dữ liệu (FastAPI)
-
 # Cách chạy dự án
 
 Frontend (Next.js)
