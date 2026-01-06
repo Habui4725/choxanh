@@ -10,20 +10,20 @@ Hệ thống cho phép người dùng tìm kiếm nguyên liệu, gợi ý các 
 
 # Công nghệ sử dụng
 
-Công nghệ: Next.js, Python FastAPI, MongoDB, RAG
+- Công nghệ: Next.js, Python FastAPI, MongoDB, RAG
 
 # Cách chạy dự án
 
-Frontend (Next.js)
+- Frontend (Next.js):
 
-cd choxanh-frontend
+  cd choxanh-frontend
 
-npm run dev
+  npm run dev
 
-Backend (FastAPI)
+- Backend (FastAPI):
 
-cd choxanh-backend
+  cd choxanh-backend
 
-uvicorn main:app --reload
+  uvicorn main:app --reload
 
 # Giảng viên hướng dẫn: TS. Trần Hoàng Lộc
