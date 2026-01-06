@@ -11,25 +11,7 @@ Hệ thống cho phép người dùng tìm kiếm nguyên liệu, gợi ý các 
 
 Công nghệ sử dụng
 
-Thành phần
-
-Công nghệ
-
-Frontend
-
-Next.js
-
-Backend
-
-Python FastAPI
-
-Database
-
-MongoDB
-
-AI
-
-RAG – gợi ý nguyên liệu
+Công nghệ: Next.js, Python FastAPI,MongoDB, RAG
 
 Cấu trúc dự án
 
