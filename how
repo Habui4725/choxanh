@@ -1,0 +1,78 @@
+[33mcommit 5861b6c81139a40c013c0a9eaa737116aa43cb66[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Merge: 816d2db 5829af7
+Author: Habui4725 <buiha4725@gmail.com>
+Date:   Wed Jan 7 03:23:53 2026 +0700
+
+    Xử lý xung đột README.md và hoàn tất hợp nhất
+
+[33mcommit 5829af72c7a666170ebb948581556899a79c98ba[m
+Author: Habui4725 <buiha4725@gmail.com>
+Date:   Wed Jan 7 02:20:59 2026 +0700
+
+    Update README.md
+
+[33mcommit 38ea7440c4d1ab0a49d81d03dfed8b743bd9804a[m
+Author: Habui4725 <buiha4725@gmail.com>
+Date:   Wed Jan 7 02:19:44 2026 +0700
+
+    Update README.md
+
+[33mcommit 098ab627a5f850b9eb582c1f836614f42f8d0ded[m
+Author: Habui4725 <buiha4725@gmail.com>
+Date:   Wed Jan 7 02:17:41 2026 +0700
+
+    Update README.md
+
+[33mcommit d64faf388d41572e47ac3c2012848d470ebf3abb[m
+Author: Habui4725 <buiha4725@gmail.com>
+Date:   Wed Jan 7 02:17:07 2026 +0700
+
+    Update README.md
+
+[33mcommit 6c41d3beb1b728e606196e61db24f7dee28a0fe0[m
+Author: Habui4725 <buiha4725@gmail.com>
+Date:   Wed Jan 7 02:16:01 2026 +0700
+
+    Update README.md
+
+[33mcommit 0e6b3e7e45a2af9e3be339c9a8283f11afc76048[m
+Author: Habui4725 <buiha4725@gmail.com>
+Date:   Wed Jan 7 02:11:46 2026 +0700
+
+    Update README.md
+
+[33mcommit c800f6e5903efdf4e342b574a3826a1ff52be9bc[m
+Author: Habui4725 <buiha4725@gmail.com>
+Date:   Wed Jan 7 02:10:26 2026 +0700
+
+    Update README.md
+
+[33mcommit e6a2062c9e7b9409d51b39071d386313f4bcbbd3[m
+Author: Habui4725 <buiha4725@gmail.com>
+Date:   Wed Jan 7 02:09:58 2026 +0700
+
+    Update README.md
+
+[33mcommit fe47a3eefd544d0ae93cd61bed2bface9b8bce45[m
+Author: Habui4725 <buiha4725@gmail.com>
+Date:   Wed Jan 7 02:07:55 2026 +0700
+
+    Update README.md
+
+[33mcommit c24eba2f78ea44511054b22313feb49e9fd89bd8[m
+Author: Habui4725 <buiha4725@gmail.com>
+Date:   Wed Jan 7 01:48:08 2026 +0700
+
+    Initial commit
+
+[33mcommit 816d2db75f39b64d2fa3dc1c4485efd09155a8d3[m
+Author: Habui4725 <buiha4725@gmail.com>
+Date:   Wed Jan 7 01:47:06 2026 +0700
+
+    Khởi tạo dự án choxanh
+
+[33mcommit 8e7637b8533f438423c7dea6cbfc5401987fe06b[m
+Author: Habui4725 <buiha4725@gmail.com>
+Date:   Sat Dec 6 17:57:50 2025 +0700
+
+    Initial commit from Create Next App

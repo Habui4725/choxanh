@@ -28,9 +28,9 @@ export default function LoginPage() {
     try {
       const data = await loginUser({ email, password });
 
-      login(data.user, data.access_token);
+      
+      login(data.user);
 
-      // chuẩn bị cho admin sau này
       if (data.user?.role === "admin") {
         router.push("/admin");
       } else {
@@ -47,7 +47,6 @@ export default function LoginPage() {
     <div className="min-h-screen bg-[url('/vegetable-bg.jpg')] bg-cover bg-center flex items-center justify-center pt-20 px-3">
       <div className="w-[900px] max-w-[95%] bg-white rounded-xl shadow-2xl flex flex-col md:flex-row overflow-hidden">
 
-        {/* FORM */}
         <form onSubmit={handleSubmit} className="w-full md:w-1/2 px-10 py-14">
           <h1 className="text-3xl font-extrabold text-green-700 mb-8">
             Đăng nhập
@@ -88,7 +87,6 @@ export default function LoginPage() {
           </Link>
         </form>
 
-        {/* RIGHT PANEL */}
         <div className="w-full md:w-1/2 bg-green-600 flex flex-col justify-center items-center text-white px-8 py-14">
           <h2 className="text-4xl font-extrabold mb-3">
             Xin chào!

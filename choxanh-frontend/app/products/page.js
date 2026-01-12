@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useCart } from "@/app/context/CartContext";
 
-/* ===== Card sản phẩm ===== */
+/* Card sản phẩm */
 function ProductCard({ product, onAddToCart, onCheckout, onToggleFavorite, isFavorite }) {
   const productId = product.id || product._id; // ✅ lấy id sản phẩm
 
@@ -63,7 +63,7 @@ function ProductCard({ product, onAddToCart, onCheckout, onToggleFavorite, isFav
   );
 }
 
-/* ===== Controls (lọc/sắp xếp/yêu thích) ===== */
+/*  Controls (lọc/sắp xếp/yêu thích)*/
 function Controls({ sort, price, onUpdateParam, showFavorites, onToggleShowFavorites }) {
   return (
     <div className="flex flex-wrap gap-4 justify-center mb-10">
@@ -105,7 +105,7 @@ function Controls({ sort, price, onUpdateParam, showFavorites, onToggleShowFavor
   );
 }
 
-/* ===== Modal thanh toán ===== */
+/* Modal thanh toán */
 function CheckoutModal({ product, onClose, onConfirm }) {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
@@ -176,7 +176,7 @@ if (!fullName.trim() || !phone.trim() || !address.trim()) {
   );
 }
 
-/* ===== Modal chi tiết đơn hàng ===== */
+/* Modal chi tiết đơn hàng */
 function OrderDetailModal({ order, onClose }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
@@ -198,7 +198,7 @@ function OrderDetailModal({ order, onClose }) {
   );
 }
 
-/* ===== Danh sách đánh giá ===== */
+/* Danh sách đánh giá  */
 function ReviewList({ reviews }) {
   return (
     <div className="mt-6">
@@ -258,7 +258,7 @@ function ReviewListWithDelete({ reviews, onDelete }) {
   );
 }
 
-/* ===== Form đánh giá ===== */
+/* Form đánh giá */
 function ReviewForm({ onSubmit }) {
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
@@ -314,7 +314,7 @@ function ReviewForm({ onSubmit }) {
   );
 }
 
-/* ===== Trang sản phẩm ===== */
+/* Trang sản phẩm */
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);

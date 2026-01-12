@@ -10,9 +10,7 @@ export function CartProvider({ children }) {
   const [mounted, setMounted] = useState(false);
   const { user } = useAuth();
 
-  /* ===============================
-     LOAD CART TỪ LOCALSTORAGE
-  =============================== */
+  /* LOAD CART TỪ LOCALSTORAGE */
   useEffect(() => {
     setMounted(true);
     if (typeof window !== "undefined") {
@@ -23,18 +21,14 @@ export function CartProvider({ children }) {
     }
   }, []);
 
-  /* ===============================
-     LƯU CART VÀO LOCALSTORAGE
-  =============================== */
+  /* LƯU CART VÀO LOCALSTORAGE */
   useEffect(() => {
     if (mounted) {
       localStorage.setItem("cart", JSON.stringify(cart));
     }
   }, [cart, mounted]);
 
-  /* ===============================
-     THÊM VÀO GIỎ
-  =============================== */
+  /* THÊM VÀO GIỎ */
   const addToCart = (product) => {
     const productId = product._id || product.id;
 
@@ -79,9 +73,7 @@ export function CartProvider({ children }) {
     }
   };
 
-  /* ===============================
-     XOÁ SẢN PHẨM
-  =============================== */
+  /* XOÁ SẢN PHẨM */
   const removeFromCart = (id) => {
     setCart((prev) =>
       prev.filter((item) => (item._id || item.id) !== id)
@@ -98,9 +90,7 @@ export function CartProvider({ children }) {
     } catch (e) {}
   };
 
-  /* ===============================
-     CẬP NHẬT SỐ LƯỢNG
-  =============================== */
+  /* CẬP NHẬT SỐ LƯỢNG */
   const updateQuantity = (id, newQty) => {
     if (newQty <= 0) {
       removeFromCart(id);
@@ -116,23 +106,17 @@ export function CartProvider({ children }) {
     );
   };
 
-  /* ===============================
-     XOÁ TOÀN BỘ GIỎ
-  =============================== */
+  /* XOÁ TOÀN BỘ GIỎ */
   const clearCart = () => {
     setCart([]);
     localStorage.removeItem("cart");
   };
 
-  /* ===============================
-     TỔNG SỐ LƯỢNG
-  =============================== */
+  /* TỔNG SỐ LƯỢNG */
   const getTotalQuantity = () =>
     cart.reduce((total, item) => total + item.quantity, 0);
 
-  /* ===============================
-     TỔNG TIỀN
-  =============================== */
+  /* TỔNG TIỀN */
   const getTotalPrice = () =>
     cart.reduce(
       (total, item) => total + item.quantity * Number(item.price || 0),
@@ -156,9 +140,7 @@ export function CartProvider({ children }) {
   );
 }
 
-/* ===============================
-   CUSTOM HOOK
-=============================== */
+/* CUSTOM HOOK */
 export function useCart() {
   const context = useContext(CartContext);
   if (!context) {
