@@ -53,6 +53,13 @@ def get_all_products(category: Optional[str] = Query(None)):
     products = products_collection.find(query)
     return [product_helper(p) for p in products]
 
+# 1b. Lấy danh sách danh mục (distinct categories)
+@router.get("/categories")
+def get_categories():
+    categories = products_collection.distinct("category", {"category": {"$ne": None}})
+    # loại bỏ giá trị rỗng
+    return [c for c in categories if c]
+
 # 2. Chi tiết sản phẩm
 @router.get("/{product_id}")
 def get_product_detail(product_id: str):

@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:8000/auth";
+const API_URL = "http://localhost:8000/auth";
 
 /* ĐĂNG KÝ */
 export async function registerUser(data) {

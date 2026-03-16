@@ -2,6 +2,7 @@ import "./globals.css";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import HeaderWrapper from "../components/HeaderWrapper";
+import AiChatWidget from "../components/AiChatWidget";
 
 export default function RootLayout({ children }) {
   return (
@@ -11,6 +12,7 @@ export default function RootLayout({ children }) {
           <CartProvider>
             <HeaderWrapper />
             {children}
+            <AiChatWidget />
           </CartProvider>
         </AuthProvider>
       </body>

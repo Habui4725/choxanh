@@ -113,6 +113,11 @@ export default function Header() {
                 <Link href="/account/orders" className="block px-4 py-2 hover:bg-green-100">
                   Đơn hàng của tôi
                 </Link>
+                {user?.role === "admin" && (
+                  <Link href="/admin-dashboard" className="block px-4 py-2 hover:bg-blue-100 text-blue-600 font-semibold">
+                    ⚙️ Admin Dashboard
+                  </Link>
+                )}
                 <button
                   onClick={() => {
                     logout();

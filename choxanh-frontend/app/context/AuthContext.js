@@ -10,12 +10,19 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
-      setUser(JSON.parse(savedUser));
+      try {
+        const userData = JSON.parse(savedUser);
+        setUser(userData);
+      } catch (e) {
+        console.error("Lỗi parse user từ localStorage:", e);
+        setUser(null);
+      }
     }
     setLoading(false);
   }, []);
 
   const login = (userData) => {
+    // userData phải chứa: id, name, email, role
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
   };

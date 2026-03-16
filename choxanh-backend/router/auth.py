@@ -38,7 +38,8 @@ def register(data: RegisterRequest):
         "name": data.name,
         "email": data.email,
         "password": hash_password(data.password),
-        "role": "user"
+        "role": "user",
+        "is_blocked": False,
     }
 
     users_collection.insert_one(user)
@@ -51,6 +52,9 @@ def login(data: LoginRequest):
 
     if not user or not verify_password(data.password, user["password"]):
         raise HTTPException(status_code=401, detail="Sai email hoặc mật khẩu")
+
+    if user.get("is_blocked"):
+        raise HTTPException(status_code=403, detail="Tài khoản bị khóa")
 
     return {
         "message": "Đăng nhập thành công",
