@@ -3,17 +3,8 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-type ContactMessage = {
-  id?: string;
-  name?: string;
-  email?: string;
-  phone?: string;
-  message?: string;
-  created_at?: string;
-};
-
 export default function ContactPage() {
-  const [messages, setMessages] = useState<ContactMessage[]>([]);
+  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -22,6 +13,7 @@ export default function ContactPage() {
       try {
         const res = await fetch('http://127.0.0.1:8000/api/contacts');
         const data = await res.json();
+
         if (Array.isArray(data)) {
           setMessages(data);
         } else {
@@ -59,31 +51,42 @@ export default function ContactPage() {
         <p>Chưa có thông điệp liên hệ nào.</p>
       ) : (
         <div className="space-y-4">
-          {messages.map((msg) => (
-            <div key={msg.id ?? msg.email ?? Math.random()} className="bg-white border border-green-200 rounded-xl p-6 shadow">
+          {messages.map((msg, index) => (
+            <div
+              key={msg.id || msg.email || index}
+              className="bg-white border border-green-200 rounded-xl p-6 shadow"
+            >
               <div className="flex flex-col md:flex-row md:justify-between gap-4">
                 <div>
                   <p className="text-sm text-gray-500">Tên</p>
                   <p className="font-semibold">{msg.name || 'Khách vãng lai'}</p>
                 </div>
+
                 <div>
                   <p className="text-sm text-gray-500">Email</p>
                   <p className="font-semibold">{msg.email || '—'}</p>
                 </div>
+
                 <div>
                   <p className="text-sm text-gray-500">SĐT</p>
                   <p className="font-semibold">{msg.phone || '—'}</p>
                 </div>
+
                 <div>
                   <p className="text-sm text-gray-500">Ngày</p>
                   <p className="font-semibold">
-                    {msg.created_at ? new Date(msg.created_at).toLocaleString('vi-VN') : '—'}
+                    {msg.created_at
+                      ? new Date(msg.created_at).toLocaleString('vi-VN')
+                      : '—'}
                   </p>
                 </div>
               </div>
+
               <div className="mt-4">
                 <p className="text-sm text-gray-500">Nội dung</p>
-                <p className="mt-1 text-gray-800 whitespace-pre-wrap">{msg.message || '—'}</p>
+                <p className="mt-1 text-gray-800 whitespace-pre-wrap">
+                  {msg.message || '—'}
+                </p>
               </div>
             </div>
           ))}

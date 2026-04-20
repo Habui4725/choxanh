@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
 from db import admins_collection, users_collection
 from router.auth import hash_password
 from router.auth import router as auth_router
@@ -11,7 +10,7 @@ from router.cart import router as cart_router
 from router.contacts import router as contacts_router
 from router.admin import router as admin_router
 from router.ai import router as ai_router
-
+from fastapi.staticfiles import StaticFiles
 app = FastAPI()
 
 
@@ -32,10 +31,10 @@ def _ensure_default_admin():
     ]
 
     for admin in admins:
-        existing = users_collection.find_one({"email": admin["email"]})
+        existing = admins_collection.find_one({"email": admin["email"]})
         if existing:
             # Ensure role is admin and unblocked (in case it was modified)
-            users_collection.update_one(
+            admins_collection.update_one(
                 {"email": admin["email"]},
                 {
                     "$set": {
@@ -46,7 +45,7 @@ def _ensure_default_admin():
             )
             continue
 
-        users_collection.insert_one(
+        admins_collection.insert_one(
             {
                 "name": admin["name"],
                 "email": admin["email"],
@@ -55,17 +54,6 @@ def _ensure_default_admin():
                 "is_blocked": False,
             }
         )
-        admins_collection.update_one(
-            {"email": admin["email"]},
-            {
-                "$set": {
-                    "name": admin["name"],
-                    "email": admin["email"],
-                    "role": "admin",
-                }
-            },
-            upsert=True,
-        )
         print(
             f"[setup] Created default admin user: {admin['email']} / {admin['password']}"
         )
@@ -73,25 +61,6 @@ def _ensure_default_admin():
 
 # Ensure at least one admin exists (useful for initial setup)
 _ensure_default_admin()
-
-# Ensure we have a visible admins collection (for Compass / admin view)
-# by syncing it from the users collection.
-def _sync_admins_collection():
-    admins = list(users_collection.find({"role": "admin"}))
-    for u in admins:
-        admins_collection.update_one(
-            {"email": u["email"]},
-            {
-                "$set": {
-                    "name": u.get("name"),
-                    "email": u.get("email"),
-                    "role": u.get("role", "admin"),
-                }
-            },
-            upsert=True,
-        )
-
-_sync_admins_collection()
 
 # Bật CORS cho frontend ở localhost (tất cả port)
 app.add_middleware(
@@ -118,7 +87,7 @@ app.include_router(cart_router)
 app.include_router(contacts_router)
 app.include_router(admin_router)
 app.include_router(ai_router)
-
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 @app.get("/")
 def root():
     return {"choxanhthongminh": "API running"}

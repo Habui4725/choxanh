@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export default function ProductCategoriesPage() {
-  const [categories, setCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState([]); // ✅ bỏ <string[]>
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -13,6 +13,7 @@ export default function ProductCategoriesPage() {
       try {
         const res = await fetch('http://127.0.0.1:8000/api/products/categories');
         const data = await res.json();
+
         if (Array.isArray(data)) {
           setCategories(data.filter(Boolean).map(String));
         } else {
@@ -40,7 +41,9 @@ export default function ProductCategoriesPage() {
         </Link>
       </div>
 
-      <h1 className="text-4xl font-bold text-green-700 mb-6">Danh mục sản phẩm</h1>
+      <h1 className="text-4xl font-bold text-green-700 mb-6">
+        Danh mục sản phẩm
+      </h1>
 
       {loading ? (
         <p>Đang tải danh mục...</p>
@@ -57,7 +60,9 @@ export default function ProductCategoriesPage() {
               className="block bg-white border border-green-200 rounded-xl p-6 shadow hover:shadow-lg transition"
             >
               <h2 className="text-xl font-semibold text-green-800">{cat}</h2>
-              <p className="text-gray-600 mt-2">Xem các sản phẩm trong danh mục này.</p>
+              <p className="text-gray-600 mt-2">
+                Xem các sản phẩm trong danh mục này.
+              </p>
             </Link>
           ))}
         </div>
