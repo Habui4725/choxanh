@@ -19,5 +19,5 @@ class UserInDB(BaseModel):
     id: Optional[str]
     name: str
     email: EmailStr
-    hashed_password: str
+    password: str   # 
     role: Optional[str] = "user"

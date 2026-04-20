@@ -1,23 +1,19 @@
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export function proxy(req: Request) {
-  const url = new URL(req.url);
+export function proxy(req: NextRequest) {
+  const url = req.nextUrl;
   const pathname = url.pathname;
 
-  // 👉 CHỈ bảo vệ ADMIN (hiện tại)
   const protectedRoutes = ["/admin"];
 
-  // ⚠️ Hiện tại FE chưa set cookie user → user luôn null
-  // nên tạm thời KHÔNG chặn cart / products
-  const cookieHeader = req.headers.get("cookie") || "";
-  const userMatch = cookieHeader.match(/user=([^;]+)/);
-  const user = userMatch?.[1];
+  // Lấy cookie chuẩn
+  const user = req.cookies.get("user")?.value;
 
   const isProtected = protectedRoutes.some((route) =>
     pathname.startsWith(route)
   );
 
-  // ❌ Chưa đăng nhập mà vào ADMIN → đá login
   if (!user && isProtected) {
     return NextResponse.redirect(new URL("/login", req.url));
   }

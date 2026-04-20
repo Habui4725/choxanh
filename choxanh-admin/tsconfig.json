@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "components/AddProductForm.js", "components/AdminLogin.js", "components/AdminUserTable.js", "components/LoginUser.js", "components/OrderManagement.js", "components/OrdersList.js", "components/ProductListPage.js", "app/main/page.js", "app/admin/login/page.js", "app/contact/page.js", "app/customer/page.js", "app/layout.js", "app/page.js", "app/orders/List/page.js", "app/orders/page.js", "app/product/add/page.js", "app/product/categories/page.js", "app/product/page.js", "app/product/list/page.js"  ],
   "exclude": ["node_modules"]
 }

@@ -11,19 +11,19 @@ export default function AddProductForm() {
     usage: "",
     note: "",
     category: "",
-    image: null as File | null,
+    image: null,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
+  const handleImageChange = (e) => {
+    const file = e.target.files ? e.target.files[0] : null;
     setForm({ ...form, image: file });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();

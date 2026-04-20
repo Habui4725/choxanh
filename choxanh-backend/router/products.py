@@ -1,10 +1,15 @@
-from fastapi import APIRouter, HTTPException, Query, status
+from fastapi import APIRouter, HTTPException, Query, status, UploadFile, File, Form  # ✅ SỬA: thêm UploadFile, File, Form
 from bson import ObjectId
 from db import products_collection
 from pydantic import BaseModel, Field
 from typing import Optional, List
+import os  # ✅ SỬA: thêm os
+import shutil  # ✅ SỬA: thêm shutil
 
 router = APIRouter(prefix="/api/products", tags=["Products"])
+
+UPLOAD_DIR = "uploads"  # ✅ SỬA: thêm thư mục lưu ảnh
+os.makedirs(UPLOAD_DIR, exist_ok=True)  # ✅ SỬA: tạo thư mục nếu chưa có
 
 # ===== Schema =====
 class ProductCreate(BaseModel):
@@ -79,12 +84,40 @@ def get_by_category(category: str):
     return [product_helper(p) for p in products]
 
 
-@router.post("/")
-@router.post("/", response_model=ProductOut, status_code=status.HTTP_201_CREATED)
-def create_product(p: ProductCreate):
-    data = p.dict()
-    # Đảm bảo giá là số nguyên và không âm (Pydantic đã tự động quy định ge=0)
-    data["price"] = int(data.get("price", 0))
+@router.post("/", response_model=ProductOut, status_code=status.HTTP_201_CREATED)  # ✅ SỬA: bỏ khai báo trùng @router.post("/")
+async def create_product(  # ✅ SỬA: đổi sang async + nhận Form/File
+    name: str = Form(...),
+    price: int = Form(...),
+    origin: Optional[str] = Form(None),
+    import_date: Optional[str] = Form(None),
+    usage: Optional[str] = Form(None),
+    note: Optional[str] = Form(None),
+    category: Optional[str] = Form(None),
+    image: Optional[UploadFile] = File(None),
+):
+    image_url = None  # ✅ SỬA: biến lưu đường dẫn ảnh
+
+    # ✅ SỬA: xử lý upload ảnh
+    if image:
+        file_ext = image.filename.split(".")[-1] if image.filename and "." in image.filename else "jpg"
+        file_name = f"{ObjectId()}.{file_ext}"
+        file_path = os.path.join(UPLOAD_DIR, file_name)
+
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(image.file, buffer)
+
+        image_url = f"/uploads/{file_name}"
+
+    data = {
+        "name": name,
+        "price": int(price),
+        "image": image_url,
+        "origin": origin,
+        "import_date": import_date,
+        "usage": usage,
+        "note": note,
+        "category": category,
+    }
 
     # tránh trùng lặp tên
     try:
@@ -104,3 +137,81 @@ def create_product(p: ProductCreate):
 
     prod = product_helper(created)
     return prod
+@router.put("/{product_id}", response_model=ProductOut)
+async def update_product(
+    product_id: str,
+    name: str = Form(...),
+    price: int = Form(...),
+    origin: Optional[str] = Form(None),
+    import_date: Optional[str] = Form(None),
+    usage: Optional[str] = Form(None),
+    note: Optional[str] = Form(None),
+    category: Optional[str] = Form(None),
+    image: Optional[UploadFile] = File(None),
+):
+    if not ObjectId.is_valid(product_id):
+        raise HTTPException(status_code=400, detail="ID không hợp lệ")
+
+    existing_product = products_collection.find_one({"_id": ObjectId(product_id)})
+    if not existing_product:
+        raise HTTPException(status_code=404, detail="Không tìm thấy sản phẩm")
+
+    image_url = existing_product.get("image")
+
+    # nếu có ảnh mới thì upload ảnh mới
+    if image:
+        file_ext = image.filename.split(".")[-1] if image.filename and "." in image.filename else "jpg"
+        file_name = f"{ObjectId()}.{file_ext}"
+        file_path = os.path.join(UPLOAD_DIR, file_name)
+
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(image.file, buffer)
+
+        image_url = f"/uploads/{file_name}"
+
+    data = {
+        "name": name,
+        "price": int(price),
+        "image": image_url,
+        "origin": origin,
+        "import_date": import_date,
+        "usage": usage,
+        "note": note,
+        "category": category,
+    }
+
+    try:
+        # tránh trùng tên với sản phẩm khác
+        duplicate = products_collection.find_one({
+            "name": data["name"],
+            "_id": {"$ne": ObjectId(product_id)}
+        })
+        if duplicate:
+            raise HTTPException(status_code=400, detail="Sản phẩm cùng tên đã tồn tại")
+
+        products_collection.update_one(
+            {"_id": ObjectId(product_id)},
+            {"$set": data}
+        )
+
+        updated = products_collection.find_one({"_id": ObjectId(product_id)})
+    except HTTPException:
+        raise
+    except Exception:
+        raise HTTPException(status_code=500, detail="Lỗi cơ sở dữ liệu")
+
+    if not updated:
+        raise HTTPException(status_code=500, detail="Cập nhật sản phẩm thất bại")
+
+    return product_helper(updated)
+@router.delete("/{product_id}")
+def delete_product(product_id: str):
+    if not ObjectId.is_valid(product_id):
+        raise HTTPException(status_code=400, detail="ID không hợp lệ")
+
+    result = products_collection.delete_one({"_id": ObjectId(product_id)})
+
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Không tìm thấy sản phẩm")
+
+    return {"message": "Xóa sản phẩm thành công"}
