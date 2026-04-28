@@ -15,7 +15,7 @@ export default function CheckoutPage() {
   const [address, setAddress] = useState("");
   const [method, setMethod] = useState("COD");
 
-  const toNumber = (v) => Number.isFinite(Number(v)) ? Number(v) : 0;
+  const toNumber = (v) => (Number.isFinite(Number(v)) ? Number(v) : 0);
 
   const totalAmount = cart.reduce(
     (sum, item) => sum + toNumber(item.price) * toNumber(item.quantity),
@@ -28,16 +28,56 @@ export default function CheckoutPage() {
       return;
     }
 
-    // Build order payload
-    const userId = user?.id ?? "guest";
+    if (cart.length === 0) {
+      alert("Giỏ hàng trống");
+      return;
+    }
+
+    const userId = user?.id || localStorage.getItem("user_id") || "guest";
+
+    // Thanh toán VNPAY
+    if (method === "VNPAY") {
+      try {
+        const res = await fetch("http://127.0.0.1:8000/payment/create_payment_url", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: userId,
+            full_name: fullName,
+            phone,
+            address,
+            amount: totalAmount,
+            bankCode: "",
+            language: "vn",
+          }),
+        });
+
+        const data = await res.json();
+
+        if (data.paymentUrl) {
+          window.location.href = data.paymentUrl;
+        } else {
+          alert(data.error || "Không tạo được link thanh toán VNPAY");
+        }
+      } catch (error) {
+        console.error(error);
+        alert("Không thể kết nối VNPAY");
+      }
+
+      return;
+    }
+
+    // Thanh toán COD
     const payload = {
       user_id: userId,
       full_name: fullName,
       phone,
       address,
-      payment_method: method,
+      payment_method: "COD",
       items: cart.map((it) => ({
-        product_id: it._id || it.id || String(it.product_id || it.productId || it.product_id),
+        product_id: it._id || it.id || String(it.product_id || it.productId || ""),
         name: it.name,
         price: Number(it.price || 0),
         quantity: Number(it.quantity || 1),
@@ -58,7 +98,7 @@ export default function CheckoutPage() {
       }
 
       const data = await res.json();
-      alert("✅ Đặt hàng thành công! Mã đơn: " + (data.order_id || "(không có)"));
+      alert("✅ Đặt hàng COD thành công! Mã đơn: " + (data.order_id || "(không có)"));
       clearCart();
       router.push("/");
     } catch (e) {
@@ -80,12 +120,14 @@ export default function CheckoutPage() {
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
         />
+
         <input
           placeholder="Số điện thoại"
           className="w-full border p-2 rounded mb-3"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
+
         <input
           placeholder="Địa chỉ giao hàng"
           className="w-full border p-2 rounded mb-3"
@@ -99,8 +141,7 @@ export default function CheckoutPage() {
           className="w-full border p-2 rounded mb-4"
         >
           <option value="COD">Thanh toán khi nhận hàng</option>
-          <option value="VNPay">VNPay</option>
-          <option value="Momo">Momo</option>
+          <option value="VNPAY">Thanh toán VNPAY</option>
         </select>
 
         <p className="font-bold text-right mb-4">

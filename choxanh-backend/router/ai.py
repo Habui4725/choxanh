@@ -11,6 +11,7 @@ from services.gemini_service import (
     find_cheaper_options,
     ask_gemini,
 )
+from pathlib import Path
 
 router = APIRouter(prefix="/api/ai", tags=["AI-RAG"])
 
@@ -27,6 +28,35 @@ def get_rag() -> RecipeRAG:
         _recipe_rag = RecipeRAG()
     return _recipe_rag
 
+def load_knowledge_text() -> str:
+    knowledge_dir = Path("knowledge")
+
+    if not knowledge_dir.exists():
+        return ""
+
+    texts = []
+    for file in knowledge_dir.glob("*.md"):
+        try:
+            texts.append(file.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+
+    return "\n\n".join(texts)
+
+
+def load_products_text(limit: int = 80) -> str:
+    products = list(products_collection.find({}).limit(limit))
+
+    lines = []
+    for p in products:
+        lines.append(
+            f"- {p.get('name', '')} | Giá: {p.get('price', 0)}đ | "
+            f"Danh mục: {p.get('category', '')} | "
+            f"Công dụng: {p.get('usage', '')} | "
+            f"Ghi chú: {p.get('note', '')}"
+        )
+
+    return "\n".join(lines)
 
 class ReindexResp(BaseModel):
     status: str
@@ -268,8 +298,10 @@ def suggest_recipes_by_ingredients(ingredients_input: List[str]):
 def generate_cooking_answer(recipe: Dict[str, Any], ingredients_resp: List[Dict[str, Any]], total: int) -> str:
     """
     Gemini viết hướng dẫn nấu ăn.
-    Quan trọng: không ép Gemini chỉ dùng nguyên liệu map được trong shop,
-    mà dùng toàn bộ nguyên liệu từ recipe để món nào cũng có thể hiện cách nấu đúng hơn.
+    Bản nâng cấp:
+    - Đọc knowledge markdown
+    - Đọc thêm dữ liệu products từ MongoDB
+    - Trả lời dựa trên recipe + shop data + knowledge
     """
     recipe_ingredient_names = [
         ing.get("name", "")
@@ -279,7 +311,20 @@ def generate_cooking_answer(recipe: Dict[str, Any], ingredients_resp: List[Dict[
 
     ingredients_text = build_ingredient_text_for_gemini(ingredients_resp)
 
+    # Đọc knowledge .md và dữ liệu sản phẩm thật
+    knowledge_text = load_knowledge_text()
+    products_text = load_products_text()
+
     context = f"""
+Bạn là trợ lý nấu ăn và mua sắm của hệ thống Chợ Xanh.
+
+=== KNOWLEDGE NỘI BỘ ===
+{knowledge_text}
+
+=== DỮ LIỆU SẢN PHẨM HIỆN CÓ TRONG SHOP ===
+{products_text}
+
+=== RECIPE ĐƯỢC CHỌN ===
 Tên món: {recipe.get('name', '')}
 Mô tả món: {recipe.get('description', '')}
 
@@ -293,20 +338,34 @@ Tổng tiền các nguyên liệu hiện map được trong shop: {total}đ
 """
 
     prompt = context + """
-Hãy trả lời bằng tiếng Việt theo đúng yêu cầu:
-1. Giới thiệu ngắn gọn món ăn là gì.
-2. Hướng dẫn cách nấu từng bước, rõ ràng, dễ hiểu.
-3. Đưa ra 1-2 mẹo để món ngon hơn.
-4. Nếu có nguyên liệu trong recipe chưa map được với shop, hãy nói ngắn gọn rằng người dùng có thể cần chuẩn bị thêm.
+Hãy trả lời bằng tiếng Việt theo đúng format sau:
+
+🍲 Món:
+[tên món + mô tả ngắn]
+
+🛒 Nguyên liệu:
+- liệt kê nguyên liệu cần dùng
+- nếu nguyên liệu có trong shop thì ghi rõ tên sản phẩm tương ứng
+- nếu chưa có trong shop thì ghi "cần chuẩn bị thêm"
+
+👨‍🍳 Cách nấu:
+1. bước 1
+2. bước 2
+3. bước 3
+4. bước 4 nếu cần
+
+💡 Mẹo nhỏ:
+- 1 đến 2 mẹo giúp món ngon hơn
 
 Lưu ý:
-- Ưu tiên dùng danh sách "Nguyên liệu chuẩn theo recipe" để hướng dẫn nấu.
 - Không bịa món khác.
+- Ưu tiên dùng recipe đã chọn.
+- Ưu tiên sản phẩm có thật trong shop.
 - Không trả JSON.
 - Viết thân thiện, dễ đọc.
 """
-    return ask_gemini(prompt)
 
+    return ask_gemini(prompt)
 
 @router.post(
     "/chat",

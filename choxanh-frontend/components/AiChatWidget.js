@@ -37,7 +37,6 @@ export default function AiChatWidget() {
     try {
       const lower = userMsg.toLowerCase();
 
-      // case 1: user hỏi kiểu "mình có trứng và cà chua thì nấu gì"
       if (
         lower.includes("mình có") ||
         lower.includes("tôi có") ||
@@ -90,29 +89,27 @@ export default function AiChatWidget() {
             reply += `- ${item.ingredient} (không có trong shop)\n`;
           }
         });
-if (data.estimated_total) {
-  reply += `\n💰 Tổng tiền dự kiến: ${data.estimated_total}đ`;
-}
-          // 👉 HIỂN THỊ CÁCH NẤU (Gemini)
-if (data.answer) {
-  reply += `\n\n Cách nấu:\n${data.answer}`;
-}
+        if (data.estimated_total) {
+         reply += `\n💰 Tổng tiền dự kiến: ${data.estimated_total}đ`;
+        }
+         
+        if (data.answer) {
+         reply += `\n\n Cách nấu:\n${data.answer}`;
+        }
 
-// 👉 GỢI Ý MÓN KHÁC
-if (data.suggestions?.length) {
-  reply += `\n\n Gợi ý thêm:\n`;
-  data.suggestions.forEach((s) => {
-    reply += `- ${s}\n`;
-  });
-}
+        if (data.suggestions?.length) {
+         reply += `\n\n Gợi ý thêm:\n`;
+         data.suggestions.forEach((s) => {
+         reply += `- ${s}\n`;
+         });
+        }
 
-// 👉 MÓN RẺ HƠN
-if (data.cheaper_options?.length) {
-  reply += `\n💸 Món rẻ hơn:\n`;
-  data.cheaper_options.forEach((c) => {
-    reply += `- ${c}\n`;
-  });
-}
+        if (data.cheaper_options?.length) {
+         reply += `\n💸 Món rẻ hơn:\n`;
+         data.cheaper_options.forEach((c) => {
+         reply += `- ${c}\n`;
+         });
+        }
 
         setMessages((prev) => [...prev, { role: "ai", text: reply }]);
       }

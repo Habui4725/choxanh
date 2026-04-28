@@ -11,6 +11,7 @@ from router.contacts import router as contacts_router
 from router.admin import router as admin_router
 from router.ai import router as ai_router
 from fastapi.staticfiles import StaticFiles
+from router import payment
 app = FastAPI()
 
 
@@ -87,6 +88,7 @@ app.include_router(cart_router)
 app.include_router(contacts_router)
 app.include_router(admin_router)
 app.include_router(ai_router)
+app.include_router(payment.router, prefix="/payment", tags=["Payment"])
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 @app.get("/")
 def root():
