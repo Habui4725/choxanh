@@ -22,6 +22,7 @@ export default function Header() {
 
   const router = useRouter();
   const pathname = usePathname();
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -33,8 +34,15 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Removed unused totalAmount calculation
-
+  useEffect(() => {
+  fetch("http://127.0.0.1:8000/api/products/categories")
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("DATA:", data);
+      setCategories(data);
+    })
+    .catch((err) => console.error(err));
+}, []);
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-green-500 text-white shadow-lg">
       {/* TOP BAR */}
@@ -136,13 +144,12 @@ export default function Header() {
       {/* CATEGORY */}
       {!pathname?.startsWith("/products") && (
         <nav className="bg-green-700 h-12 flex items-center justify-center gap-8 font-semibold">
-          <Link href="/categories/trai-cay">Trái cây</Link>
-          <Link href="/categories/rau-cu">Rau củ</Link>
-          <Link href="/categories/thit-ca">Thịt / Cá / Trứng / Hải sản</Link>
-          <Link href="/categories/gia-vi">Gia vị</Link>
-          <Link href="/categories/do-kho">Đồ khô</Link>
-          <Link href="/categories/dong-lanh">Đồ chế biến sẵn</Link>
-        </nav>
+  {categories?.map((cat) => (
+    <Link key={cat} href={`/categories/${cat}`}>
+      {cat}
+    </Link>
+  ))}
+</nav>
       )}
     </header>
   );
