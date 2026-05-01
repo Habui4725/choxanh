@@ -22,9 +22,16 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = (userData) => {
-    // userData phải chứa: id, name, email, role
-    setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
+    // Chuẩn hóa dữ liệu user để chắc chắn có id đúng dạng ObjectId string
+    const normalizedUser = {
+      id: userData.id,        // chính là str(user["_id"]) từ backend
+      name: userData.name,
+      email: userData.email,
+      role: userData.role || "user",
+    };
+
+    setUser(normalizedUser);
+    localStorage.setItem("user", JSON.stringify(normalizedUser));
   };
 
   const logout = () => {
@@ -33,7 +40,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, setUser, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

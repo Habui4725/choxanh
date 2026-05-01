@@ -1,0 +1,660 @@
+[{
+  "_id": {
+    "$oid": "69e8fae749385a032238e18d"
+  },
+  "message": "thịt kho tàu",
+  "recipe": "Thịt kho tàu",
+  "confidence": 0.5704033374786377,
+  "ingredient_count": 6,
+  "estimated_total": 260000
+},
+{
+  "_id": {
+    "$oid": "69e8fb4449385a032238e18e"
+  },
+  "message": "thịt kho tàu",
+  "recipe": "Thịt kho tàu",
+  "confidence": 0.5704033374786377,
+  "ingredient_count": 6,
+  "estimated_total": 260000
+},
+{
+  "_id": {
+    "$oid": "69e904de49385a032238e18f"
+  },
+  "message": "bún bò",
+  "recipe": "Bún bò Huế",
+  "confidence": 0.5411051511764526,
+  "ingredient_count": 3,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e904e949385a032238e190"
+  },
+  "message": "bánh canh",
+  "recipe": "Bánh mì thịt",
+  "confidence": 0.39263075590133667,
+  "ingredient_count": 5,
+  "estimated_total": 181000
+},
+{
+  "_id": {
+    "$oid": "69e9050949385a032238e191"
+  },
+  "message": "bánh mì",
+  "recipe": "Bánh mì thịt",
+  "confidence": 0.42045196890830994,
+  "ingredient_count": 5,
+  "estimated_total": 181000
+},
+{
+  "_id": {
+    "$oid": "69e9051249385a032238e192"
+  },
+  "message": "bánh canh hẹ",
+  "recipe": "Bánh mì thịt",
+  "confidence": 0.38592925667762756,
+  "ingredient_count": 5,
+  "estimated_total": 181000
+},
+{
+  "_id": {
+    "$oid": "69e90dd9eb9405adf682e413"
+  },
+  "message": "tôi muốn nấu bún bò",
+  "normalized_message": "tôi muốn nấu bún bò",
+  "recipe": "Bún bò Huế",
+  "confidence": 0.6250648498535156,
+  "ingredient_count": 3,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e90ea6111aa54e9ccaaab7"
+  },
+  "message": "tôi muốn nấu bánh canh",
+  "normalized_message": "Bánh canh",
+  "recipe": "Bánh mì thịt",
+  "confidence": 0.39263075590133667,
+  "ingredient_count": 5,
+  "estimated_total": 181000
+},
+{
+  "_id": {
+    "$oid": "69e91011111aa54e9ccaaab8"
+  },
+  "message": "món dễ nấu",
+  "normalized_message": "Món dễ",
+  "recipe": "Cơm tấm",
+  "confidence": 0.3975960612297058,
+  "ingredient_count": 2,
+  "estimated_total": 68000
+},
+{
+  "_id": {
+    "$oid": "69e91024111aa54e9ccaaab9"
+  },
+  "message": "cách nấu bún bò",
+  "normalized_message": "Bún bò",
+  "recipe": "Bún bò Huế",
+  "confidence": 0.5411051511764526,
+  "ingredient_count": 3,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e9103e111aa54e9ccaaaba"
+  },
+  "message": "nấu gì rẻ nhất",
+  "normalized_message": "Trứng",
+  "recipe": "Thịt kho tàu",
+  "confidence": 0.5285120606422424,
+  "ingredient_count": 6,
+  "estimated_total": 260000
+},
+{
+  "_id": {
+    "$oid": "69e91068111aa54e9ccaaabb"
+  },
+  "message": "bún bò",
+  "normalized_message": "bún bò",
+  "recipe": "Bún bò Huế",
+  "confidence": 0.5411051511764526,
+  "ingredient_count": 3,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e920c02d0aec92fa844044"
+  },
+  "message": "bún bò",
+  "intent": "find",
+  "dish_query": "Bún Bò",
+  "ingredients_input": [
+    "rice vermicelli",
+    "beef"
+  ],
+  "recipe": "Bún bò Huế",
+  "ingredient_count": 3,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e921b4dcdbd1cebc467b54"
+  },
+  "message": "cách nấu bún bò",
+  "intent": "find",
+  "dish_query": "bún bò",
+  "ingredients_input": [],
+  "recipe": "Bún bò Huế",
+  "ingredient_count": 3,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e922fbdcdbd1cebc467b55"
+  },
+  "message": "cách nấu bánh xèo",
+  "intent": "find",
+  "dish_query": "bánh xèo",
+  "ingredients_input": [],
+  "recipe": "Bánh xèo",
+  "ingredient_count": 3,
+  "estimated_total": 288000
+},
+{
+  "_id": {
+    "$oid": "69e92396cafcbde56580f82e"
+  },
+  "message": "bún bò",
+  "intent": "find",
+  "dish_query": "bún bò",
+  "ingredients_input": [
+    "bún",
+    "bò"
+  ],
+  "recipe": "Bún bò Huế",
+  "ingredient_count": 3,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e9250b6cbd42e581cab9e3"
+  },
+  "message": "cách nấu bún bò",
+  "intent": "find",
+  "dish_query": "bún bò",
+  "ingredients_input": [],
+  "recipe": "Bún bò Huế",
+  "ingredient_count": 3,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e925566cbd42e581cab9e4"
+  },
+  "message": "món ăn rẻ nhất",
+  "intent": "cheapest",
+  "dish_query": "",
+  "ingredients_input": [],
+  "recipe": "Canh rau cải",
+  "ingredient_count": 2,
+  "estimated_total": 24000
+},
+{
+  "_id": {
+    "$oid": "69e925656cbd42e581cab9e5"
+  },
+  "message": "món đắt nhất",
+  "intent": "find",
+  "dish_query": "món đắt nhất",
+  "ingredients_input": [],
+  "recipe": "Trứng chiên",
+  "ingredient_count": 3,
+  "estimated_total": 78000
+},
+{
+  "_id": {
+    "$oid": "69e925e56cbd42e581cab9e6"
+  },
+  "message": "bánh xèo",
+  "intent": "find",
+  "dish_query": "bánh xèo",
+  "ingredients_input": [],
+  "recipe": "Bánh xèo",
+  "ingredient_count": 3,
+  "estimated_total": 288000
+},
+{
+  "_id": {
+    "$oid": "69e925fb6cbd42e581cab9e7"
+  },
+  "message": "bánh canh",
+  "intent": "find",
+  "dish_query": "bánh canh",
+  "ingredients_input": [],
+  "recipe": "Bánh mì thịt",
+  "ingredient_count": 5,
+  "estimated_total": 181000
+},
+{
+  "_id": {
+    "$oid": "69e926066cbd42e581cab9e8"
+  },
+  "message": "bún chả cá",
+  "intent": "find",
+  "dish_query": "bún chả cá",
+  "ingredients_input": [],
+  "recipe": "Bún bò Huế",
+  "ingredient_count": 3,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e926136cbd42e581cab9e9"
+  },
+  "message": "bò kho",
+  "intent": "find",
+  "dish_query": "bò kho",
+  "ingredients_input": [],
+  "recipe": "Cá kho tộ",
+  "ingredient_count": 4,
+  "estimated_total": 270000
+},
+{
+  "_id": {
+    "$oid": "69e927026cbd42e581cab9ea"
+  },
+  "message": "cách nấu bún bò",
+  "intent": "find",
+  "dish_query": "bún bò",
+  "ingredients_input": [],
+  "recipe": "Bún bò Huế",
+  "ingredient_count": 3,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e9277b6cbd42e581cab9eb"
+  },
+  "message": "canh cá chua",
+  "intent": "find",
+  "dish_query": "canh cá chua",
+  "ingredients_input": [],
+  "recipe": "Canh cá chua",
+  "ingredient_count": 4,
+  "estimated_total": 235000
+},
+{
+  "_id": {
+    "$oid": "69e928976cbd42e581cab9ec"
+  },
+  "message": "cách nấu canh cá chua",
+  "intent": "find",
+  "dish_query": "cách nấu canh cá chua",
+  "ingredients_input": [],
+  "recipe": "Canh cá chua",
+  "ingredient_count": 4,
+  "estimated_total": 235000
+},
+{
+  "_id": {
+    "$oid": "69e9296f6cbd42e581cab9ed"
+  },
+  "message": "cách nấu bún bò",
+  "intent": "find",
+  "dish_query": "cách nấu bún bò",
+  "ingredients_input": [],
+  "recipe": "Bún bò Huế",
+  "ingredient_count": 3,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e92a346cbd42e581cab9ee"
+  },
+  "message": "canh cá chua",
+  "intent": "find",
+  "dish_query": "canh cá chua",
+  "ingredients_input": [],
+  "recipe": "Canh cá chua",
+  "ingredient_count": 4,
+  "estimated_total": 235000
+},
+{
+  "_id": {
+    "$oid": "69e92a5a6cbd42e581cab9ef"
+  },
+  "message": "cách nấu bún bò",
+  "intent": "find",
+  "dish_query": "bún bò",
+  "ingredients_input": [],
+  "recipe": "Bún bò Huế",
+  "ingredient_count": 3,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e92a686cbd42e581cab9f0"
+  },
+  "message": "cách nấu canh cá chua",
+  "intent": "find",
+  "dish_query": "cách nấu canh cá chua",
+  "ingredients_input": [],
+  "recipe": "Canh cá chua",
+  "ingredient_count": 4,
+  "estimated_total": 235000
+},
+{
+  "_id": {
+    "$oid": "69e92a746cbd42e581cab9f1"
+  },
+  "message": "cách nấu cơm tấm",
+  "intent": "find",
+  "dish_query": "cách nấu cơm tấm",
+  "ingredients_input": [],
+  "recipe": "Cơm tấm",
+  "ingredient_count": 2,
+  "estimated_total": 68000
+},
+{
+  "_id": {
+    "$oid": "69e92aba6cbd42e581cab9f2"
+  },
+  "message": "cách nấu canh rau cải",
+  "intent": "find",
+  "dish_query": "cách nấu canh rau cải",
+  "ingredients_input": [],
+  "recipe": "Canh cá chua",
+  "ingredient_count": 4,
+  "estimated_total": 235000
+},
+{
+  "_id": {
+    "$oid": "69e92b506cbd42e581cab9f3"
+  },
+  "message": "cách nấu canh chua cá",
+  "intent": "find",
+  "dish_query": "cách nấu canh chua cá",
+  "ingredients_input": [],
+  "recipe": "Canh cá chua",
+  "ingredient_count": 4,
+  "estimated_total": 235000
+},
+{
+  "_id": {
+    "$oid": "69e92b7a6cbd42e581cab9f4"
+  },
+  "message": "cách nấu bún bò",
+  "intent": "find",
+  "dish_query": "bún bò",
+  "ingredients_input": [],
+  "recipe": "Bún bò Huế",
+  "ingredient_count": 3,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e92bbc6cbd42e581cab9f5"
+  },
+  "message": "cách nấu bún bò",
+  "intent": "find",
+  "dish_query": "cách nấu bún bò",
+  "ingredients_input": [],
+  "recipe": "Bún bò Huế",
+  "ingredient_count": 3,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e92bcd6cbd42e581cab9f6"
+  },
+  "message": "cách nấu bánh canh",
+  "intent": "find",
+  "dish_query": "cách nấu bánh canh",
+  "ingredients_input": [],
+  "recipe": "Bánh mì thịt",
+  "ingredient_count": 5,
+  "estimated_total": 181000
+},
+{
+  "_id": {
+    "$oid": "69e92def6cbd42e581cab9f7"
+  },
+  "message": "susi",
+  "intent": "find",
+  "dish_query": "susi",
+  "ingredients_input": [],
+  "recipe": "Cơm tấm",
+  "ingredient_count": 2,
+  "estimated_total": 68000
+},
+{
+  "_id": {
+    "$oid": "69e92df96cbd42e581cab9f8"
+  },
+  "message": "tiêu",
+  "intent": "find",
+  "dish_query": "tiêu",
+  "ingredients_input": [],
+  "recipe": "Thịt kho tàu",
+  "ingredient_count": 6,
+  "estimated_total": 260000
+},
+{
+  "_id": {
+    "$oid": "69e92e056cbd42e581cab9f9"
+  },
+  "message": "miến dong",
+  "intent": "find",
+  "dish_query": "miến dong",
+  "ingredients_input": [],
+  "recipe": "Mì xào giòn",
+  "ingredient_count": 5,
+  "estimated_total": 293000
+},
+{
+  "_id": {
+    "$oid": "69e92e166cbd42e581cab9fa"
+  },
+  "message": "giấm",
+  "intent": "find",
+  "dish_query": "giấm",
+  "ingredients_input": [],
+  "recipe": "Gà chiên nước mắm",
+  "ingredient_count": 3,
+  "estimated_total": 95000
+},
+{
+  "_id": {
+    "$oid": "69e92e206cbd42e581cab9fb"
+  },
+  "message": "nước mắm",
+  "intent": "find",
+  "dish_query": "nước mắm",
+  "ingredients_input": [],
+  "recipe": "Phở bò",
+  "ingredient_count": 3,
+  "estimated_total": 248000
+},
+{
+  "_id": {
+    "$oid": "69e92e2b6cbd42e581cab9fc"
+  },
+  "message": "cách nấu phở",
+  "intent": "find",
+  "dish_query": "cách nấu phở",
+  "ingredients_input": [],
+  "recipe": "Cá kho tộ",
+  "ingredient_count": 4,
+  "estimated_total": 270000
+},
+{
+  "_id": {
+    "$oid": "69e92e396cbd42e581cab9fd"
+  },
+  "message": "phở bò",
+  "intent": "find",
+  "dish_query": "phở bò",
+  "ingredients_input": [],
+  "recipe": "Phở bò",
+  "ingredient_count": 3,
+  "estimated_total": 248000
+},
+{
+  "_id": {
+    "$oid": "69e92e416cbd42e581cab9fe"
+  },
+  "message": "thịt kho tàu",
+  "intent": "find",
+  "dish_query": "thịt kho tàu",
+  "ingredients_input": [],
+  "recipe": "Thịt kho tàu",
+  "ingredient_count": 6,
+  "estimated_total": 260000
+},
+{
+  "_id": {
+    "$oid": "69e939671049d290fea5370e"
+  },
+  "message": "tôi muốn nấu thịt kho tàu",
+  "intent": "find",
+  "dish_query": "tôi muốn nấu thịt kho tàu",
+  "ingredients_input": [],
+  "recipe": "Thịt kho tàu",
+  "ingredient_count": 6,
+  "estimated_total": 260000
+},
+{
+  "_id": {
+    "$oid": "69e939ce1049d290fea5370f"
+  },
+  "message": "bún bò",
+  "intent": "find",
+  "dish_query": "bún bò",
+  "ingredients_input": [],
+  "recipe": "Bún bò Huế",
+  "ingredient_count": 5,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e93c751049d290fea53710"
+  },
+  "message": "cách nấu bún bò",
+  "intent": "find",
+  "dish_query": "cách nấu bún bò",
+  "ingredients_input": [],
+  "recipe": "Bún bò Huế",
+  "ingredient_count": 5,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e93d691049d290fea53711"
+  },
+  "message": "canh chua",
+  "intent": "find",
+  "dish_query": "canh chua",
+  "ingredients_input": [],
+  "recipe": "Canh cá chua",
+  "ingredient_count": 5,
+  "estimated_total": 235000
+},
+{
+  "_id": {
+    "$oid": "69e95bbe82fcdbcb7b305a97"
+  },
+  "message": "muốn nâu bún bò",
+  "intent": "find",
+  "dish_query": "nâu bún bò",
+  "ingredients_input": [],
+  "recipe": "Bún bò Huế",
+  "ingredient_count": 5,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e95bbe82fcdbcb7b305a98"
+  },
+  "message": "bún bò",
+  "intent": "find",
+  "dish_query": "bún bò",
+  "ingredients_input": [],
+  "recipe": "Bún bò Huế",
+  "ingredient_count": 5,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e95c3882fcdbcb7b305a99"
+  },
+  "message": "cơm tấm",
+  "intent": "find",
+  "dish_query": "cơm tấm",
+  "ingredients_input": [],
+  "recipe": "Cơm tấm",
+  "ingredient_count": 5,
+  "estimated_total": 68000
+},
+{
+  "_id": {
+    "$oid": "69e9613ce61382a12042f1a1"
+  },
+  "message": "muốn nấu bún bò",
+  "intent": "find",
+  "dish_query": "bún bò",
+  "ingredients_input": [],
+  "recipe": "Bún bò Huế",
+  "ingredient_count": 5,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e96173e61382a12042f1a2"
+  },
+  "message": "muốn nấu cơm tấm",
+  "intent": "find",
+  "dish_query": "cơm tấm",
+  "ingredients_input": [],
+  "recipe": "Cơm tấm",
+  "ingredient_count": 5,
+  "estimated_total": 68000
+},
+{
+  "_id": {
+    "$oid": "69e9729e255c1c9a1181f225"
+  },
+  "message": "bún bò",
+  "intent": "find",
+  "dish_query": "bún bò",
+  "ingredients_input": [],
+  "recipe": "Bún bò Huế",
+  "ingredient_count": 5,
+  "estimated_total": 242000
+},
+{
+  "_id": {
+    "$oid": "69e9758d255c1c9a1181f226"
+  },
+  "message": "tôi muốn nấu cơm tấm",
+  "intent": "find",
+  "dish_query": "cơm tấm",
+  "ingredients_input": [],
+  "recipe": "Cơm tấm",
+  "ingredient_count": 5,
+  "estimated_total": 68000
+},
+{
+  "_id": {
+    "$oid": "69ef93db5f4abefe09e76100"
+  },
+  "message": "bánh mì",
+  "intent": "find",
+  "dish_query": "bánh mì",
+  "ingredients_input": [],
+  "recipe": "Bánh mì thịt",
+  "ingredient_count": 5,
+  "estimated_total": 181000
+}]

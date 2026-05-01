@@ -52,7 +52,7 @@ def register(data: RegisterRequest):
     users_collection.insert_one(user)
     return {"message": "Đăng ký thành công"}
 
-# Login USER - giữ nguyên
+# Login USER
 @router.post("/login")
 def login(data: LoginRequest):
     user = users_collection.find_one({"email": data.email})
@@ -78,7 +78,7 @@ def login(data: LoginRequest):
 def logout():
     return {"message": "Đăng xuất thành công"}
 
-# Get user - giữ nguyên
+# Get user
 @router.get("/{user_id}")
 def get_user(user_id: str):
     if not ObjectId.is_valid(user_id):
@@ -94,6 +94,45 @@ def get_user(user_id: str):
         "name": user["name"],
         "email": user["email"],
         "role": user.get("role", "user"),
+    }
+
+# Update user info
+class UpdateUserRequest(BaseModel):
+    id: str
+    name: str | None = None
+    password: str | None = None
+
+@router.put("/update")
+def update_user(data: UpdateUserRequest):
+    if not ObjectId.is_valid(data.id):
+        raise HTTPException(status_code=400, detail="ID không hợp lệ")
+
+    user = users_collection.find_one({"_id": ObjectId(data.id)})
+    if not user:
+        raise HTTPException(status_code=404, detail="Người dùng không tồn tại")
+
+    update_fields = {}
+    if data.name:
+        update_fields["name"] = data.name
+    if data.password:
+        if len(data.password) < 6:
+            raise HTTPException(status_code=400, detail="Mật khẩu phải dài ít nhất 6 ký tự")
+        update_fields["password"] = hash_password(data.password)
+
+    if not update_fields:
+        raise HTTPException(status_code=400, detail="Không có dữ liệu để cập nhật")
+
+    users_collection.update_one(
+        {"_id": ObjectId(data.id)},
+        {"$set": update_fields}
+    )
+
+    updated_user = users_collection.find_one({"_id": ObjectId(data.id)})
+    return {
+        "id": str(updated_user["_id"]),
+        "name": updated_user["name"],
+        "email": updated_user["email"],
+        "role": updated_user.get("role", "user"),
     }
 
 # AUTH MIDDLEWARE
@@ -125,7 +164,6 @@ def require_admin(current_user=Depends(get_current_user)):
         raise HTTPException(status_code=403, detail="Bạn không có quyền Admin")
 
     return current_user
-
 
 # Login ADMIN
 @router.post("/admin/login")

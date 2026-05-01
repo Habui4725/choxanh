@@ -1,0 +1,176 @@
+[
+  {
+    "name": "Thịt kho tàu",
+    "description": "Món thịt kho trứng truyền thống",
+    "ingredients": [
+      {"name": "Thịt heo"},
+      {"name": "Trứng"},
+      {"name": "Nước mắm"},
+      {"name": "Đường"},
+      {"name": "Tỏi"},
+      {"name": "Tiêu"}
+    ],
+    "tags": ["món mặn"]
+  },
+  {
+    "name": "Canh cá chua",
+    "description": "Canh chua thanh mát",
+    "ingredients": [
+      {"name": "Cá"},
+      {"name": "Cà chua"},
+      {"name": "Dứa"},
+      {"name": "Me"},
+      {"name": "Rau thơm"}
+    ],
+    "tags": ["canh"]
+  },
+  {
+    "name": "Phở bò",
+    "description": "Phở truyền thống Việt Nam",
+    "ingredients": [
+      {"name": "Bánh phở"},
+      {"name": "Thịt bò"},
+      {"name": "Hành"},
+      {"name": "Gừng"},
+      {"name": "Nước dùng"}
+    ],
+    "tags": ["nước"]
+  },
+  {
+    "name": "Cơm tấm",
+    "description": "Cơm tấm sườn bì chả",
+    "ingredients": [
+      {"name": "Gạo"},
+      {"name": "Sườn"},
+      {"name": "Trứng"},
+      {"name": "Nước mắm"},
+      {"name": "Dưa leo"}
+    ],
+    "tags": ["cơm"]
+  },
+  {
+    "name": "Bún bò Huế",
+    "description": "Bún bò cay đặc trưng",
+    "ingredients": [
+      {"name": "Bún"},
+      {"name": "Thịt bò"},
+      {"name": "Giò heo"},
+      {"name": "Sả"},
+      {"name": "Ớt"}
+    ],
+    "tags": ["nước"]
+  },
+  {
+    "name": "Gà chiên nước mắm",
+    "description": "Gà chiên giòn sốt mắm",
+    "ingredients": [
+      {"name": "Thịt gà"},
+      {"name": "Nước mắm"},
+      {"name": "Tỏi"},
+      {"name": "Đường"}
+    ],
+    "tags": ["món mặn"]
+  },
+  {
+    "name": "Rau muống xào tỏi",
+    "description": "Rau xào đơn giản",
+    "ingredients": [
+      {"name": "Rau muống"},
+      {"name": "Tỏi"},
+      {"name": "Dầu ăn"}
+    ],
+    "tags": ["rau"]
+  },
+  {
+    "name": "Trứng chiên",
+    "description": "Món đơn giản",
+    "ingredients": [
+      {"name": "Trứng"},
+      {"name": "Nước mắm"},
+      {"name": "Hành"}
+    ],
+    "tags": ["món nhanh"]
+  },
+  {
+    "name": "Cá kho tộ",
+    "description": "Cá kho đậm đà",
+    "ingredients": [
+      {"name": "Cá"},
+      {"name": "Nước mắm"},
+      {"name": "Đường"},
+      {"name": "Tiêu"}
+    ],
+    "tags": ["món mặn"]
+  },
+  {
+    "name": "Canh rau cải",
+    "description": "Canh nhẹ nhàng",
+    "ingredients": [
+      {"name": "Rau cải"},
+      {"name": "Thịt băm"},
+      {"name": "Muối"}
+    ],
+    "tags": ["canh"]
+  },
+  {
+    "name": "Bánh mì thịt",
+    "description": "Bánh mì kẹp thịt ngon",
+    "ingredients": [
+      {"name": "Bánh mì"},
+      {"name": "Thịt heo"},
+      {"name": "Pate"},
+      {"name": "Rau thơm"},
+      {"name": "Nước mắm"}
+    ],
+    "tags": ["món nhanh"]
+  },
+  {
+    "name": "Bún chả",
+    "description": "Bún chả Hà Nội",
+    "ingredients": [
+      {"name": "Bún"},
+      {"name": "Thịt heo"},
+      {"name": "Nước mắm"},
+      {"name": "Đường"},
+      {"name": "Tỏi"},
+      {"name": "Rau sống"}
+    ],
+    "tags": ["món nhanh"]
+  },
+  {
+    "name": "Mì xào giòn",
+    "description": "Mì xào giòn ngon",
+    "ingredients": [
+      {"name": "Mì gói"},
+      {"name": "Thịt bò"},
+      {"name": "Rau cải"},
+      {"name": "Nước mắm"},
+      {"name": "Tỏi"}
+    ],
+    "tags": ["món nhanh"]
+  },
+{
+    "name": "Gỏi cuốn",
+    "description": "Gỏi cuốn tươi ngon",
+    "ingredients": [
+      {"name": "Bánh tráng"},
+      {"name": "Tôm"},
+      {"name": "Thịt heo"},
+      {"name": "Rau sống"},
+      {"name": "Nước mắm"}
+    ],
+    "tags": ["món nhanh"]
+},
+  {
+    "name": "Bánh xèo",
+    "description": "Bánh xèo giòn rụm",
+    "ingredients": [
+      {"name": "Bột gạo"},
+      {"name": "Tôm"},
+      {"name": "Thịt heo"},
+      {"name": "Nước mắm"},
+      {"name": "Rau sống"}
+    ],
+    "tags": ["món nhanh"]
+  }
+]

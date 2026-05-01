@@ -40,7 +40,16 @@ export default function CartPage() {
               key={id}
               className="flex justify-between items-center border-b py-4"
             >
-              <div>
+              {/* Hình ảnh sản phẩm */}
+              {item.image && (
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-20 h-20 object-cover rounded mr-4"
+                />
+              )}
+
+              <div className="flex-1">
                 <h2 className="font-semibold text-lg">{item.name}</h2>
                 <p className="text-gray-600">
                   {toNumber(item.price).toLocaleString()} đ
