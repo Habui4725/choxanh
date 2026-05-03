@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any, Union
 from bson import ObjectId
+from pathlib import Path
 
 from db import products_collection, recipes_collection, ai_requests_collection
 from services.recipe_rag_faiss import RecipeRAG
@@ -11,7 +12,7 @@ from services.gemini_service import (
     find_cheaper_options,
     ask_gemini,
 )
-from pathlib import Path
+
 
 router = APIRouter(prefix="/api/ai", tags=["AI-RAG"])
 
@@ -28,18 +29,26 @@ def get_rag() -> RecipeRAG:
         _recipe_rag = RecipeRAG()
     return _recipe_rag
 
+
 def load_knowledge_text() -> str:
-    knowledge_dir = Path("knowledge")
+    """
+    Đọc toàn bộ file .md trong knowledge/
+    Bao gồm cả thư mục con: dishes, ingredients, techniques...
+    """
+    base_dir = Path(__file__).resolve().parent.parent
+    knowledge_dir = base_dir / "knowledge"
 
     if not knowledge_dir.exists():
         return ""
 
     texts = []
-    for file in knowledge_dir.glob("*.md"):
+
+    for file in knowledge_dir.rglob("*.md"):
         try:
+            texts.append(f"\n\n--- FILE: {file.name} ---\n")
             texts.append(file.read_text(encoding="utf-8"))
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"Read knowledge error {file}: {e}")
 
     return "\n\n".join(texts)
 
@@ -48,6 +57,7 @@ def load_products_text(limit: int = 80) -> str:
     products = list(products_collection.find({}).limit(limit))
 
     lines = []
+
     for p in products:
         lines.append(
             f"- {p.get('name', '')} | Giá: {p.get('price', 0)}đ | "
@@ -57,6 +67,52 @@ def load_products_text(limit: int = 80) -> str:
         )
 
     return "\n".join(lines)
+
+
+def generate_wiki_from_products():
+    """
+    Tạo file markdown cho mỗi sản phẩm trong knowledge/ingredients.
+    """
+    base_dir = Path(__file__).resolve().parent.parent
+    ingredients_dir = base_dir / "knowledge" / "ingredients"
+    ingredients_dir.mkdir(parents=True, exist_ok=True)
+
+    products = list(products_collection.find({}))
+
+    if not products:
+        raise HTTPException(status_code=400, detail="Chưa có products trong Mongo")
+
+    created = 0
+    for product in products:
+        name = (product.get("name") or "").strip()
+        if not name:
+            continue
+
+        slug = normalize_text(name).replace(" ", "-")
+        slug = "".join(ch for ch in slug if ch.isalnum() or ch in "-_")
+        if not slug:
+            continue
+
+        file_path = ingredients_dir / f"{slug}.md"
+        lines = [
+            f"# {name}",
+            "",
+            f"**Giá**: {product.get('price', 'Không rõ')}đ",
+            f"**Danh mục**: {product.get('category', 'Không rõ')}",
+            f"**Công dụng**: {product.get('usage', 'Không có')}",
+            f"**Ghi chú**: {product.get('note', 'Không có')}",
+        ]
+        if product.get("image"):
+            lines.append(f"**Hình ảnh**: {product.get('image')}")
+
+        file_path.write_text("\n".join(lines), encoding="utf-8")
+        created += 1
+
+    return {
+        "status": "wiki_generated",
+        "count": created,
+    }
+
 
 class ReindexResp(BaseModel):
     status: str
@@ -110,16 +166,29 @@ class IngredientSuggestionResp(BaseModel):
     suggestions: List[SuggestedDishResp]
 
 
+@router.post("/generate-wiki")
+async def generate_wiki():
+    """
+    Tự tạo file .md trong knowledge/ingredients/
+    dựa trên dữ liệu products trong MongoDB.
+    """
+    return await generate_wiki_from_products()
+
+
 @router.post("/reindex-recipes", response_model=ReindexResp)
 def reindex_recipes():
     recipes = list(recipes_collection.find({}))
+
     if not recipes:
         raise HTTPException(status_code=400, detail="Chưa có recipes trong Mongo")
 
     rag = get_rag()
     rag.upsert_recipes(recipes)
 
-    return {"status": "indexed_recipes", "count": len(recipes)}
+    return {
+        "status": "indexed_recipes",
+        "count": len(recipes),
+    }
 
 
 @router.post("/reindex", response_model=ReindexResp)
@@ -139,16 +208,19 @@ def map_ingredient_to_product(ingredient: Dict[str, Any]):
 
     for hint in hints:
         hint = (hint or "").strip()
+
         if not hint:
             continue
 
         product = products_collection.find_one({
             "name": {"$regex": hint, "$options": "i"}
         })
+
         if product:
             return product
 
     name = (ingredient.get("name") or "").strip()
+
     if not name:
         return None
 
@@ -158,12 +230,6 @@ def map_ingredient_to_product(ingredient: Dict[str, Any]):
 
 
 def build_ingredient_response(recipe: Dict[str, Any]):
-    """
-    Luôn trả toàn bộ nguyên liệu trong recipe.
-    - Nếu map được product -> matched_product có dữ liệu
-    - Nếu chưa map được -> matched_product = None
-    Nhờ đó món nào có recipe cũng vẫn hiện được cách nấu.
-    """
     ingredients_resp: List[Dict[str, Any]] = []
     estimated_total = 0
 
@@ -175,6 +241,7 @@ def build_ingredient_response(recipe: Dict[str, Any]):
 
         if product:
             price = product.get("price")
+
             if isinstance(price, (int, float)):
                 estimated_total += int(price)
 
@@ -196,11 +263,9 @@ def build_ingredient_response(recipe: Dict[str, Any]):
     return ingredients_resp, estimated_total
 
 
-def build_ingredient_text_for_gemini(ingredients_resp: List[Dict[str, Any]]) -> str:
-    """
-    Tạo text gọn gửi cho Gemini.
-    Gồm cả trường hợp nguyên liệu chưa có trong shop.
-    """
+def build_ingredient_text_for_gemini(
+    ingredients_resp: List[Dict[str, Any]]
+) -> str:
     lines = []
 
     for item in ingredients_resp:
@@ -210,7 +275,9 @@ def build_ingredient_text_for_gemini(ingredients_resp: List[Dict[str, Any]]) -> 
         if matched:
             price = matched.get("price")
             price_str = (
-                f"{int(price)}đ" if isinstance(price, (int, float)) else "không rõ giá"
+                f"{int(price)}đ"
+                if isinstance(price, (int, float))
+                else "không rõ giá"
             )
             shop_name = matched.get("name") or ingredient_name
             lines.append(f"- {ingredient_name} → {shop_name} ({price_str})")
@@ -221,11 +288,6 @@ def build_ingredient_text_for_gemini(ingredients_resp: List[Dict[str, Any]]) -> 
 
 
 def find_cheapest_recipe(recipes: List[Dict[str, Any]]):
-    """
-    Tìm món rẻ nhất dựa trên các nguyên liệu map được giá.
-    Vẫn cho phép recipe có vài nguyên liệu chưa map.
-    Chỉ cần có ít nhất 1 nguyên liệu map được là tính được.
-    """
     best_recipe = None
     min_total = None
     best_ingredients_resp: List[Dict[str, Any]] = []
@@ -234,6 +296,7 @@ def find_cheapest_recipe(recipes: List[Dict[str, Any]]):
         ingredients_resp, total = build_ingredient_response(recipe)
 
         has_any_mapped = any(i.get("matched_product") for i in ingredients_resp)
+
         if not ingredients_resp or not has_any_mapped:
             continue
 
@@ -250,8 +313,11 @@ def find_cheapest_recipe(recipes: List[Dict[str, Any]]):
 
 def suggest_recipes_by_ingredients(ingredients_input: List[str]):
     user_ingredients = [
-        normalize_text(x) for x in ingredients_input if str(x).strip()
+        normalize_text(x)
+        for x in ingredients_input
+        if str(x).strip()
     ]
+
     if not user_ingredients:
         raise HTTPException(status_code=400, detail="Danh sách nguyên liệu rỗng")
 
@@ -260,6 +326,7 @@ def suggest_recipes_by_ingredients(ingredients_input: List[str]):
 
     for recipe in recipes:
         recipe_ingredients = recipe.get("ingredients", [])
+
         recipe_names = [
             normalize_text(i.get("name", ""))
             for i in recipe_ingredients
@@ -274,6 +341,7 @@ def suggest_recipes_by_ingredients(ingredients_input: List[str]):
                 user_ing in r_ing or r_ing in user_ing
                 for user_ing in user_ingredients
             )
+
             if found:
                 matched.append(r_ing)
             else:
@@ -295,14 +363,11 @@ def suggest_recipes_by_ingredients(ingredients_input: List[str]):
     }
 
 
-def generate_cooking_answer(recipe: Dict[str, Any], ingredients_resp: List[Dict[str, Any]], total: int) -> str:
-    """
-    Gemini viết hướng dẫn nấu ăn.
-    Bản nâng cấp:
-    - Đọc knowledge markdown
-    - Đọc thêm dữ liệu products từ MongoDB
-    - Trả lời dựa trên recipe + shop data + knowledge
-    """
+def generate_cooking_answer(
+    recipe: Dict[str, Any],
+    ingredients_resp: List[Dict[str, Any]],
+    total: int,
+) -> str:
     recipe_ingredient_names = [
         ing.get("name", "")
         for ing in recipe.get("ingredients", [])
@@ -311,14 +376,13 @@ def generate_cooking_answer(recipe: Dict[str, Any], ingredients_resp: List[Dict[
 
     ingredients_text = build_ingredient_text_for_gemini(ingredients_resp)
 
-    # Đọc knowledge .md và dữ liệu sản phẩm thật
     knowledge_text = load_knowledge_text()
     products_text = load_products_text()
 
     context = f"""
 Bạn là trợ lý nấu ăn và mua sắm của hệ thống Chợ Xanh.
 
-=== KNOWLEDGE NỘI BỘ ===
+=== KNOWLEDGE WIKI NỘI BỘ ===
 {knowledge_text}
 
 === DỮ LIỆU SẢN PHẨM HIỆN CÓ TRONG SHOP ===
@@ -361,11 +425,13 @@ Lưu ý:
 - Không bịa món khác.
 - Ưu tiên dùng recipe đã chọn.
 - Ưu tiên sản phẩm có thật trong shop.
+- Có thể dùng thông tin từ knowledge wiki nếu liên quan.
 - Không trả JSON.
 - Viết thân thiện, dễ đọc.
 """
 
     return ask_gemini(prompt)
+
 
 @router.post(
     "/chat",
@@ -373,6 +439,7 @@ Lưu ý:
 )
 def chat(body: ChatReq):
     user_msg = (body.message or "").strip()
+
     if not user_msg:
         raise HTTPException(status_code=400, detail="message rỗng")
 
@@ -407,10 +474,12 @@ def chat(body: ChatReq):
         hits = rag.search(query, top_k=top_k)
 
         if not hits:
-            raise HTTPException(status_code=404, detail="Không tìm thấy món phù hợp")
+            raise HTTPException(
+                status_code=404,
+                detail="Không tìm thấy món phù hợp",
+            )
 
         best_hit = hits[0]
-
         recipe = recipes_collection.find_one({
             "_id": ObjectId(best_hit["recipe_id"])
         })
@@ -420,8 +489,6 @@ def chat(body: ChatReq):
 
         ingredients_resp, total = build_ingredient_response(recipe)
 
-        # KHÔNG raise lỗi nữa nếu chưa map được sản phẩm
-        # Chỉ cần có recipe là vẫn hiển thị món + cách nấu
         if not ingredients_resp:
             raise HTTPException(
                 status_code=404,
@@ -431,8 +498,11 @@ def chat(body: ChatReq):
     answer = generate_cooking_answer(recipe, ingredients_resp, total)
 
     suggestions = suggest_similar(recipes, recipe.get("name", ""))
+
     cheaper_options = find_cheaper_options(
-        recipes, total, map_ingredient_to_product
+        recipes,
+        total,
+        map_ingredient_to_product,
     )
 
     try:
@@ -469,4 +539,7 @@ def suggest_alias(body: ChatReq):
 )
 def suggest_by_ingredients(body: SuggestByIngredientsReq):
     result = suggest_recipes_by_ingredients(body.ingredients)
-    return {"suggestions": result["suggestions"]}
+
+    return {
+        "suggestions": result["suggestions"],
+    }
