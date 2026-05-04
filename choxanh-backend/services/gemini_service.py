@@ -11,9 +11,8 @@ client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 MODEL_NAME = "gemini-2.5-flash"
 
 
-# ========================
-# 🔥 1. PHÂN TÍCH INTENT
-# ========================
+# PHÂN TÍCH INTENT
+
 def analyze_user_intent(user_input: str):
     prompt = f"""
 Phân tích câu sau và trả về JSON:
@@ -50,9 +49,8 @@ JSON mẫu:
         }
 
 
-# ========================
-# 🔥 2. TRẢ LỜI CHÍNH (DÙNG GEMINI)
-# ========================
+# TRẢ LỜI CHÍNH (DÙNG GEMINI)
+
 def ask_gemini(prompt: str) -> str:
     """
     Hàm này dùng để tạo câu trả lời chính trong API /chat.
@@ -68,10 +66,7 @@ def ask_gemini(prompt: str) -> str:
         print("Gemini answer error:", e)
         return "Xin lỗi, tôi không thể tạo câu trả lời lúc này."
 
-
-# ========================
-# 🔥 3. (CŨ) VIẾT CÂU TRẢ LỜI — KHÔNG DÙNG NỮA
-# ========================
+# HÀM CŨ, KHÔNG DÙNG NỮA, CHỈ GIỮ LẠI ĐỂ TRÁNH LỖI IMPORT
 def generate_answer_full(dish, ingredients, total):
     """
     Hàm cũ — vẫn giữ lại để tránh lỗi import,
@@ -99,9 +94,7 @@ Viết mô tả món, cách nấu, mẹo nấu ngon.
         return ""
 
 
-# ========================
-# 🔥 4. GỢI Ý MÓN
-# ========================
+# GỢI Ý MÓN 
 def suggest_similar(recipes, current_name):
     return [
         r.get("name") for r in recipes
@@ -109,9 +102,7 @@ def suggest_similar(recipes, current_name):
     ][:3]
 
 
-# ========================
-# 🔥 5. MÓN RẺ HƠN
-# ========================
+# MÓN RẺ HƠN
 def find_cheaper_options(recipes, current_total, map_func):
     result = []
 

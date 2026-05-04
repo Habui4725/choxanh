@@ -5,7 +5,7 @@ import { useParams, useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useCart } from "@/app/context/CartContext";
 
-/* ===== Controls ===== */
+// Các control lọc/sắp xếp/search ở trên cùng
 function Controls({ sort, price, keyword, onUpdateParam, showFavorites, onToggleShowFavorites }) {
   return (
     <div className="bg-white rounded-2xl shadow-md p-5 mb-10 flex flex-wrap gap-4 justify-center">
@@ -54,8 +54,7 @@ function Controls({ sort, price, keyword, onUpdateParam, showFavorites, onToggle
     </div>
   );
 }
-
-/* ===== Trang danh mục ===== */
+// Trang danh mục chính, hiển thị list sản phẩm theo slug category, có lọc/sắp xếp/search/favorite/pagination
 export default function CategoryPage() {
   const { slug } = useParams();
   const searchParams = useSearchParams();

@@ -19,7 +19,7 @@ function ProductCard({ product, onAddToCart, onCheckout, onToggleFavorite, isFav
         {isFavorite ? "❤️" : "🤍"}
       </button>
 
-      {/* ✅ Bọc ảnh + phần thông tin bằng Link để chuyển sang trang chi tiết */}
+      {/* Bọc ảnh + phần thông tin bằng Link để chuyển sang trang chi tiết */}
       <Link href={`/products/${productId}`} className="block">
         <img
           src={product.image}

@@ -30,9 +30,7 @@ class ProductRAG:
 
         self._try_load()
 
-    # ----------------------------
-    # Index persistence
-    # ----------------------------
+    # Index persistence (load/save)
     def _try_load(self) -> None:
         if os.path.exists(self.index_path) and os.path.exists(self.meta_path):
             try:
@@ -52,9 +50,7 @@ class ProductRAG:
         with open(self.meta_path, "w", encoding="utf-8") as f:
             json.dump({"metas": self.metas}, f, ensure_ascii=False)
 
-    # ----------------------------
-    # Document builder
-    # ----------------------------
+    # Document builder (cho mỗi product)
     def _product_to_doc(self, p: Dict[str, Any]) -> str:
         # lấy các field bạn đang có trong products.json/mongo
         name = p.get("name", "")
@@ -72,9 +68,7 @@ class ProductRAG:
             f"Từ khoá: nguyên liệu nấu ăn, thực phẩm, chợ xanh, món ăn, nấu canh, kho, xào, chiên, hấp"
         )
 
-    # ----------------------------
-    # Reindex
-    # ----------------------------
+    # Reindex (xây lại index từ list products mới, gọi sau khi có update/delete/add product)
     def reindex_products(self, products: List[Dict[str, Any]]) -> int:
         docs: List[str] = []
         metas: List[Dict[str, Any]] = []
@@ -105,9 +99,7 @@ class ProductRAG:
         self._save()
         return len(products)
 
-    # ----------------------------
-    # Dish -> ingredient keyword hints (heuristic)
-    # ----------------------------
+    # HINTS (dùng để cải thiện truy vấn search, không phải lúc nào cũng có)
     def _dish_hints(self, dish: str) -> List[str]:
         """
         Không có recipes DB thì mình dùng hint keywords để kéo đúng nguyên liệu trong products.
@@ -130,7 +122,7 @@ class ProductRAG:
             if any(k in q for k in keys):
                 hints.extend(kws)
 
-        # remove duplicates keep order
+        # loại bỏ trùng lặp và giữ nguyên thứ tự
         seen = set()
         out = []
         for h in hints:
@@ -139,9 +131,7 @@ class ProductRAG:
                 out.append(h)
         return out
 
-    # ----------------------------
-    # Search
-    # ----------------------------
+    # Search với query tự nhiên, trả về list sản phẩm có score (dùng cho gợi ý nguyên liệu khi biết tên món)
     def search(self, query: str, top_k: int = 8) -> List[Dict[str, Any]]:
         if self.index is None or not self.metas:
             return []
